@@ -2,12 +2,12 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Les inn data fra CSV (endre filnavn hvis nødvendig)
-filename = "lowpass_characterisation.csv"  # Sett inn riktig filnavn
+# Les inn data fra CSV 
+filename = "lowpass_characterisation.csv" 
 
 data = pd.read_csv(filename)
 
-# Anta at CSV-fila har kolonnene: "Frekvens", "Vinn", "Vut", "Faseforskjell"
+# Leser av "Frekvens", "Vinn", "Vut", "Faseforskjell"
 frekvens = data["F"]
 vinn = data["V_inn"]
 vut = data["V_ut"]
