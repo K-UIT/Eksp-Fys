@@ -2,12 +2,12 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Les inn data fra CSV (endre filnavn hvis nødvendig)
-filename = "lowpass_characterisation.csv"  # Sett inn riktig filnavn
+# Les inn data fra CSV 
+filename = "lowpass_characterisation.csv" 
 
 data = pd.read_csv(filename)
 
-# Anta at CSV-fila har kolonnene: "Frekvens", "Vinn", "Vut", "Faseforskjell"
+# Tar ut "Frekvens", "Vinn", "Vut", "Faseforskjell"
 frekvens = data["F"]
 vinn = data["V_inn"]
 vut = data["V_ut"]
@@ -23,7 +23,7 @@ print(f"Estimert grensefrekvens (f0): {f0} Hz")
 
 # Beregn teoretiske verdier
 H_teoretisk = 1 / np.sqrt(1 + (frekvens / f0) ** 2)
-fase_teoretisk = np.arctan(frekvens / f0) * (180 / np.pi)  # Endret til +arctan
+fase_teoretisk = np.arctan(frekvens / f0) * (180 / np.pi)
 
 # Opprett en figur med tre subplots (1x3)
 fig, axes = plt.subplots(1, 2, figsize=(10, 5))
