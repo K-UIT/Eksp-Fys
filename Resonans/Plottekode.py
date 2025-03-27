@@ -8,7 +8,7 @@ def beregn_impedans(filnavn):
 
     # Henter spenning og frekvens
     frekvens = df["F"]  # Frekvens i Hz
-    spenning = (df["V_inn"] - df["V_ut"]) / df["V_ut"]  # Vmath/Vc2
+    spenning = (df["V_inn"] - df["V_ut"]) / df["V_ut"] 
     ch1 = df["V_inn"]
     ch2 = df["V_ut"]
 
@@ -82,16 +82,10 @@ yerror = [df0, 200, 200]  # Feilmargene for de forskjellige frekvensene
 
 # Plotting
 plt.figure(figsize=(8, 6))
-
-# Feilplott med rød for teoretisk verdi og blå for parallell og serie
 plt.errorbar(x[0], y[0], yerr=yerror[0], fmt="o", color="red",capsize=5, elinewidth=1.5, label="Teoretisk resonans")
 plt.errorbar(x[1], y[1], yerr=yerror[1], fmt="o", color="blue",capsize=5, elinewidth=1.5, label="Parallell resonans")
 plt.errorbar(x[2], y[2], yerr=yerror[2], fmt="o", color="purple",capsize=5, elinewidth=1.5, label="Serie resonans")
-
-# Tilpasse x-aksen etiketter
 plt.xticks(x, ["Teoretisk", "Parallell", "Serie"])
-
-# Legge til etiketter og tittel
 plt.xlabel("Krets")
 plt.ylabel("Frekvens (Hz)")
 plt.title("Resonansfrekvenser med usikkerhet")
