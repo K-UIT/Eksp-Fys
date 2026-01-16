@@ -31,36 +31,38 @@ class Sudoku(ABC):
 
     @abstractmethod  # This method must be implemented by subclasses
     def __str__(self) -> str:
-        board = ""
+        """Neat looking readable sudoku board formatter"""
+        board = "" # Empty board to start with
         for row_id, row in enumerate(self.board): # Going through every row
             for square_id, square in enumerate(row):
-                board += str(square) + " "
+                board += str(square) + " " # Adding every digit in a row
                 if (square_id + 1) % self.b_width == 0 and square_id != self.dimension - 1:
-                    board += "| "
+                    board += "| " # Adding a line after one boxwidth has passed, except for end
                 elif square_id == self.dimension - 1:
-                    board += "\n"
-            if (row_id + 1) % self.b_height == 0 and row_id != self.dimension - 1:
+                    board += "\n" # If we are at the last digit in a row go to a newline
+
+            if (row_id + 1) % self.b_height == 0 and row_id != self.dimension - 1: # Check if a box height has passed
                 for box_id in range(0, self.dimension // self.b_width):
-                    board += "--" * self.b_width
+                    board += "--" * self.b_width # Add horizontal lines for every box
                     if box_id % (self.b_width + 1) == 0 and box_id != self.dimension - 1:
-                        board += "|"
+                        board += "|" # Adding vertical lines to make neater
                     elif box_id == self.dimension // self.b_width - 1:
-                        board += "\n"
-        return board
+                        board += "\n" # Go to newline once done drawing the horizontal line
+        return board 
 
 
 # Subclass of Sudoku
-class Sudoku_4x4:
+class Sudoku_4x4(Sudoku):
     pass
 
 
 # Subclass of Sudoku
-class Sudoku_6x6:
+class Sudoku_6x6(Sudoku):
     pass
 
 
 # Subclass of Sudoku
-class Sudoku_9x9:
+class Sudoku_9x9(Sudoku):
     pass
 
 
@@ -152,6 +154,3 @@ if __name__=="__main__":
     
     test = Sudoku(clean_brett, length, height)    
     print(test)
-
-
-
