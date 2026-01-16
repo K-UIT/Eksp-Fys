@@ -9,12 +9,29 @@ class Sudoku(ABC):
         self.b_width=box_width
         self.b_height=box_height
         self.dimension=box_width*box_height
+        self.number_elements = sum(len(initial_board) for row in initial_board)
+
     def _validate_board_dimensions(self):
         """Validate dimensions of initial board
-
         Board should be square and compatible with box width and height.
         """
-        pass
+        if int(self.number_elements**0.5)!=self.dimension:
+            return False # Checking if the number of elements is correct
+        
+        root=int(self.dimension**0.5)
+        if root**2==self.dimension: # Checking if we are dealing with square boxes
+            height=length=root
+        else:
+            for i in range(1,root+1): # Trying to find the largest box combo
+                if self.dimension%i==0:
+                    length, height = self.dimension//i, i
+        
+        if height!=self.b_height or length!=self.b_width:
+            return False # If height and length wrong return false
+        return True
+
+
+
 
     def _set_up_board(self):
         """Initialize squares and elements (rows, columns, boxes) of the board"""
@@ -84,6 +101,11 @@ class Square:
         return possible
 
 
+
+
+
+
+
 class Element(ABC):
     """Generic Sudoku element containing a collection of squares"""
 
@@ -132,25 +154,8 @@ def clean(brett): # This method won't work for boards >9 but that's okay
         clean_brett.append(brett[i:i+dim])
     return dim, clean_brett
 
-# Prelogic finding the mxn box sizes for non square boxes
-def size(dim):
-    root=int(dim**0.5)
-    if root**2==dim: # Checking if we are dealing with square boxes
-        height=length=root
-    else:
-        for i in range(1,root+1): # Trying to find the largest box combo
-            if dim%i==0:
-                length, height = dim//i, i    
-    return length, height
 
 
 if __name__=="__main__":
     brett = input("Give a board: ")
     dim, clean_brett = clean(brett)
-    length, height = size(dim)
-    print(height)
-    print(length)
-    print(clean_brett)
-    
-    test = Sudoku(clean_brett, length, height)    
-    print(test)
