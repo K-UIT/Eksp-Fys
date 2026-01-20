@@ -49,23 +49,24 @@ class Sudoku(ABC):
     @abstractmethod  # This method must be implemented by subclasses
     def __str__(self) -> str:
         """Neat looking readable sudoku board formatter"""
-        board = "" # Empty board to start with
-        for row_id, row in enumerate(self.board): # Going through every row
+        board = ""
+        for row_id, row in enumerate(self.board):
             for square_id, square in enumerate(row):
-                board += str(square) + " " # Adding every digit in a row
+                board += str(square) + " "
                 if (square_id + 1) % self.b_width == 0 and square_id != self.dimension - 1:
-                    board += "| " # Adding a line after one boxwidth has passed, except for end
+                    board += "| "
                 elif square_id == self.dimension - 1:
-                    board += "\n" # If we are at the last digit in a row go to a newline
-
-            if (row_id + 1) % self.b_height == 0 and row_id != self.dimension - 1: # Check if a box height has passed
+                    board += "\n"
+    
+            if (row_id + 1) % self.b_height == 0 and row_id != self.dimension - 1:
                 for box_id in range(0, self.dimension // self.b_width):
-                    board += "--" * self.b_width # Add horizontal lines for every box
-                    if box_id % (self.b_width + 1) == 0 and box_id != self.dimension - 1:
-                        board += "|" # Adding vertical lines to make neater
-                    elif box_id == self.dimension // self.b_width - 1:
-                        board += "\n" # Go to newline once done drawing the horizontal line
-        return board 
+                    board += "--" * self.b_width
+                    if box_id < self.dimension // self.b_width - 1:
+                        board += "|-"
+                    if box_id == self.dimension // self.b_width - 1:
+                        board += "\n"
+    
+        return board
 
 
 # Subclass of Sudoku
@@ -148,14 +149,14 @@ def clean(brett): # This method won't work for boards >9 but that's okay
     brett=list(map(int,brett.replace(".","0").replace("\n",""))) # Making the str into a list of ints
     dim = int(len(brett)**0.5) # as the board is nxn we can do this to find the dimension
     if dim**2 != len(brett):
-        raise ValueError("Non-square board")
+        raise ValueError("Not square board")
     clean_brett=[]
     for i in range(0,dim**2,dim): # Splitting every column into it's own list
         clean_brett.append(brett[i:i+dim])
-    return dim, clean_brett
+    return clean_brett
 
 
 
 if __name__=="__main__":
     brett = input("Give a board: ")
-    dim, clean_brett = clean(brett)
+    clean_brett = clean(brett)
