@@ -9,9 +9,11 @@ class Sudoku(ABC):
         self.b_width=box_width
         self.b_height=box_height
         self.dimension=box_width*box_height
-        self.number_elements = sum(len(initial_board) for row in initial_board)
+        
+        if not self._validate_board_dimensions: # Checking if dimensions are valid
+            raise ValueError("Board dimensions are invalid")
 
-    def _validate_board_dimensions(self):
+    def _validate_board_dimensions(self) -> bool:
         """Validate dimensions of initial board
         Board should be square and compatible with box width and height.
         """
@@ -71,17 +73,31 @@ class Sudoku(ABC):
 
 # Subclass of Sudoku
 class Sudoku_4x4(Sudoku):
-    pass
+    def __init__(self, board: list[list[int]]): # Initiating the board
+        super().__init__(board, box_width = 2, box_height= 2)
+
+    def __str__(self) -> str: # Printing out a general board
+        return super().__str__()
+
 
 
 # Subclass of Sudoku
 class Sudoku_6x6(Sudoku):
-    pass
+    def __init__(self, board: list[list[int]]): # Initiating the board
+        super().__init__(board, box_width = 3, box_height= 2)
+    
+    def __str__(self) -> str: # Printing out a general board
+        return super().__str__()
 
 
 # Subclass of Sudoku
 class Sudoku_9x9(Sudoku):
-    pass
+    def __init__(self, board: list[list[int]]): # Initiating the board
+        super().__init__(board, box_width = 3, box_height= 3)
+    
+    
+    def __str__(self) -> str: # Printing out a general board
+        return super().__str__()
 
 
 class Square:
@@ -92,14 +108,12 @@ class Square:
         self.row=row
         self.column=column
         self.box=box
-        self.sees=row+column+box
-
+        self.possible = []
     def possible_values(self) -> list[int]:
-        possible = []
         for val in range(1,10):
-            if val not in self.sees:
-                possible.append(val)
-        return possible
+            if val not in self.possible:
+                self.possible.append(val)
+        return self.possible
 
 
 
