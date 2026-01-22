@@ -110,7 +110,7 @@ class Square:
         self.box=box
         self.possible = []
     def possible_values(self) -> list[int]:
-        for val in range(1,10):
+        for val in range(1,Sudoku.dimension):
             if val not in self.possible:
                 self.possible.append(val)
         return self.possible
@@ -125,14 +125,16 @@ class Element(ABC):
     """Generic Sudoku element containing a collection of squares"""
 
     def __init__(self):
-        pass
+        self.elements=[]
 
     def _add_square(self, square: Square) -> None:
-        pass
+        if square not in self.elements:
+            self.elements.append(square)
 
     def values(self) -> list[int]:
         """Return values of squares that have been filled in"""
-        return []  # Placeholder
+        
+        return [square.value for square in self.elements if square.value>0]
 
     @abstractmethod  # This method must be implemented by subclasses
     def __str__(self) -> str:
@@ -142,19 +144,19 @@ class Element(ABC):
 
 # Subclass of Element
 # Should implement __str__ to print as a horizontal row
-class Row:
+class Row(Element):
     pass
 
 
 # Subclass of Element
 # Should implement __str__ to print as a vertical column
-class Column:
+class Column(Element):
     pass
 
 
 # Subclass of Element
 # Should implement __str__ to print as a box
-class Box:
+class Box(Element):
     pass
 
 
